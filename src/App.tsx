@@ -31,7 +31,7 @@ function App() {
         const result = await client.models.Game.create({
           name,
           displayName,
-          rules: { description: "Basic game rules" },
+          rules: JSON.stringify({ description: "Basic game rules" }),
           minPlayers: 2,
           maxPlayers: 2,
           isActive: true
@@ -51,9 +51,9 @@ function App() {
         const result = await client.models.User.create({
           email: user.signInDetails.loginId,
           username,
-          ratings: { "tic-tac-toe": 1200, "draw-a-card": 1200 },
-          gamesPlayed: { "tic-tac-toe": 0, "draw-a-card": 0 },
-          gamesWon: { "tic-tac-toe": 0, "draw-a-card": 0 }
+          ratings: JSON.stringify({ "tic-tac-toe": 1200, "draw-a-card": 1200 }),
+          gamesPlayed: JSON.stringify({ "tic-tac-toe": 0, "draw-a-card": 0 }),
+          gamesWon: JSON.stringify({ "tic-tac-toe": 0, "draw-a-card": 0 })
         });
         console.log("User created successfully:", result);
       } catch (error) {
