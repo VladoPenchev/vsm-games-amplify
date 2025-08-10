@@ -1,17 +1,54 @@
 import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
 
-/*== STEP 1 ===============================================================
-The section below creates a Todo database table with a "content" field. Try
-adding a new "isDone" field as a boolean. The authorization rule below
-specifies that any user authenticated via an API key can "create", "read",
-"update", and "delete" any "Todo" records.
+/*== GAME SERVER DATA MODELS ===============================================
+Online Game Server data models for users, games, and matches.
+Users have individual ratings per game type and can participate in matches.
+Games define the available game types and their rules.
+Matches track individual game sessions between players.
 =========================================================================*/
 const schema = a.schema({
-  Todo: a
+  User: a
     .model({
-      content: a.string(),
+      email: a.email().required(),
+      username: a.string().required(),
+      ratings: a.json(), // { "tic-tac-toe": 1200, "draw-a-card": 1200 }
+      gamesPlayed: a.json(), // { "tic-tac-toe": 5, "draw-a-card": 10 }
+      gamesWon: a.json(), // { "tic-tac-toe": 3, "draw-a-card": 4 }
     })
-    .authorization((allow) => [allow.publicApiKey()]),
+    .authorization((allow) => [
+      allow.owner(),
+      allow.authenticated().to(["read"])
+    ]),
+
+  Game: a
+    .model({
+      name: a.string().required(), // "tic-tac-toe", "draw-a-card"
+      displayName: a.string().required(), // "Tic Tac Toe", "Draw a Card"
+      rules: a.json().required(), // Game-specific rules and configuration
+      minPlayers: a.integer().required(),
+      maxPlayers: a.integer().required(),
+      isActive: a.boolean().default(true),
+    })
+    .authorization((allow) => [
+      allow.authenticated().to(["read"]),
+      allow.owner().to(["create", "update", "delete"])
+    ]),
+
+  Match: a
+    .model({
+      gameType: a.string().required(), // References Game.name
+      players: a.string().array().required(), // Array of user IDs
+      status: a.enum(["WAITING", "IN_PROGRESS", "COMPLETED", "ABANDONED"]),
+      currentPlayer: a.string(), // User ID of current player
+      gameState: a.json(), // Current game state (game-specific)
+      winner: a.string(), // User ID of winner, null if draw
+      ratingChanges: a.json(), // { userId: ratingChange } after completion
+      completedAt: a.datetime(),
+    })
+    .authorization((allow) => [
+      allow.authenticated().to(["read", "create"]),
+      allow.owner().to(["update", "delete"])
+    ]),
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -19,11 +56,8 @@ export type Schema = ClientSchema<typeof schema>;
 export const data = defineData({
   schema,
   authorizationModes: {
-    defaultAuthorizationMode: "apiKey",
-    // API Key is used for a.allow.public() rules
-    apiKeyAuthorizationMode: {
-      expiresInDays: 30,
-    },
+    defaultAuthorizationMode: "userPool",
+    // Use Cognito User Pool for authenticated users
   },
 });
 
