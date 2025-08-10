@@ -22,31 +22,43 @@ function App() {
     });
   }, []);
 
-  function createGame() {
+  async function createGame() {
     const name = window.prompt("Game name (e.g., tic-tac-toe)");
     const displayName = window.prompt("Display name (e.g., Tic Tac Toe)");
     if (name && displayName) {
-      client.models.Game.create({
-        name,
-        displayName,
-        rules: { description: "Basic game rules" },
-        minPlayers: 2,
-        maxPlayers: 2,
-        isActive: true
-      });
+      console.log("Creating game with:", { name, displayName });
+      try {
+        const result = await client.models.Game.create({
+          name,
+          displayName,
+          rules: { description: "Basic game rules" },
+          minPlayers: 2,
+          maxPlayers: 2,
+          isActive: true
+        });
+        console.log("Game created successfully:", result);
+      } catch (error) {
+        console.error("Error creating game:", error);
+      }
     }
   }
 
-  function createUser() {
+  async function createUser() {
     const username = window.prompt("Username");
     if (username && user?.signInDetails?.loginId) {
-      client.models.User.create({
-        email: user.signInDetails.loginId,
-        username,
-        ratings: { "tic-tac-toe": 1200, "draw-a-card": 1200 },
-        gamesPlayed: { "tic-tac-toe": 0, "draw-a-card": 0 },
-        gamesWon: { "tic-tac-toe": 0, "draw-a-card": 0 }
-      });
+      console.log("Creating user with:", { username, email: user.signInDetails.loginId });
+      try {
+        const result = await client.models.User.create({
+          email: user.signInDetails.loginId,
+          username,
+          ratings: { "tic-tac-toe": 1200, "draw-a-card": 1200 },
+          gamesPlayed: { "tic-tac-toe": 0, "draw-a-card": 0 },
+          gamesWon: { "tic-tac-toe": 0, "draw-a-card": 0 }
+        });
+        console.log("User created successfully:", result);
+      } catch (error) {
+        console.error("Error creating user:", error);
+      }
     }
   }
 
