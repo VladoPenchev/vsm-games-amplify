@@ -16,8 +16,7 @@ const schema = a.schema({
       gamesWon: a.json(), // { "tic-tac-toe": 3, "draw-a-card": 4 }
     })
     .authorization((allow) => [
-      allow.owner(),
-      allow.authenticated().to(["read"])
+      allow.authenticated()
     ]),
 
   Game: a
@@ -30,8 +29,7 @@ const schema = a.schema({
       isActive: a.boolean().default(true),
     })
     .authorization((allow) => [
-      allow.authenticated().to(["read"]),
-      allow.owner().to(["create", "update", "delete"])
+      allow.authenticated()
     ]),
 
   Match: a
@@ -46,8 +44,7 @@ const schema = a.schema({
       completedAt: a.datetime(),
     })
     .authorization((allow) => [
-      allow.authenticated().to(["read", "create"]),
-      allow.owner().to(["update", "delete"])
+      allow.authenticated()
     ]),
 });
 
