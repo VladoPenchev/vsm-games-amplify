@@ -8,11 +8,12 @@
 
 ## Description
 
-Completes a development step by creating **two complementary documents**:
+Completes a development step by creating **three essential documents**:
 1. **Handoff Brief** - Updates CLAUDE.md for fresh session continuity
 2. **Detailed Documentation** - Creates comprehensive step record in docs/
+3. **README Updates** - ALWAYS updates README.md to reflect current functionality
 
-This dual approach ensures both immediate productivity and long-term knowledge retention.
+This comprehensive approach ensures immediate productivity, long-term knowledge retention, and accurate project documentation.
 
 ## What This Command Does
 
@@ -36,14 +37,14 @@ Generates `docs/development-steps/step-X.X-<name>.md` with:
 - **Architecture Decisions:** Why certain approaches were chosen
 - **Reference Commands:** Useful commands and techniques discovered
 
-### 3. Updates README.md (When Appropriate)
-Intelligently updates project README to reflect current capabilities:
+### 3. Auto-Updates README.md (MANDATORY)
+ALWAYS updates project README for every step completion:
 
-- **Project Description:** Updates from "starter template" to current reality
-- **Feature List:** Shows implemented games and functionality
-- **Development Status:** Current phase/step progress
-- **Usage Instructions:** How to run and test current features
-- **Architecture Overview:** High-level technical summary
+- **Development Status:** Mark current step complete, update dates (MANDATORY)
+- **Feature List:** Update to reflect newly implemented functionality
+- **Usage Instructions:** Refresh user flow to match current capabilities  
+- **Production URLs:** Add live demo links when deployment steps complete
+- **Project Description:** Keep current with implemented reality (no "in development" for working features)
 
 ## Command Execution Flow
 
@@ -70,19 +71,24 @@ When you run `/step-complete 1.2`:
    - Capture debugging techniques and solutions
    - Document lessons learned and best practices
 
-5. **Evaluate README Update Need:**
-   - **Major Features Added:** Always update (new games, core functionality)
-   - **Infrastructure Changes:** Update for significant architecture changes
-   - **Bug Fixes:** Usually skip README updates
-   - **Ask When Uncertain:** Prompt for README update decision
+5. **Auto-Update README.md:**
+   - **ALWAYS update for Major Features** (authentication, new games, core functionality)
+   - **ALWAYS update for Infrastructure Changes** (deployment, architecture changes)
+   - **ALWAYS update Development Status** (mark current step complete, update dates)
+   - **NEVER skip README updates** for step completions - user shouldn't need to remind you
+   - **Update immediately without asking** - README should reflect current reality
 
-6. **Update README (If Needed):**
-   - Replace outdated starter template language
-   - List current implemented features
-   - Update installation/usage instructions
-   - Show development progress status
+6. **README Update Actions (Automatic):**
+   - Mark current step as complete with ✅ in Development Status
+   - Update "Last Updated" date and step number
+   - Refresh user flow instructions to match current functionality
+   - Add production URL if deployment step completed
+   - Update feature descriptions to match implemented state
 
 7. **Commit All Documents:**
+   - CLAUDE.md handoff brief
+   - docs/development-steps/step-X.X-name.md detailed documentation
+   - README.md updates (ALWAYS included)
    - Add to version control with descriptive messages
    - Ensure knowledge persistence across sessions
 

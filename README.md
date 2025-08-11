@@ -31,11 +31,14 @@ npm run dev
 
 ### Try Current Features
 1. Register/login with email
-2. Create your user profile (manual for now)  
+2. Profile automatically created on first login
 3. Create games and test data models
-4. View data in DynamoDB tables
+4. View your ELO ratings and game statistics
 
-*Note: Full game functionality coming in upcoming development phases*
+### Live Demo
+🌐 **Production Site:** https://d1ysod570k7trh.amplifyapp.com
+
+*Note: Game logic coming in Step 1.3 - current focus is user system*
 
 ## 🏗️ Architecture
 
@@ -49,7 +52,7 @@ npm run dev
 
 **Current Phase:** Phase 1 - Foundation
 - [x] **Step 1.1:** Data Foundation (User/Game/Match models) ✅
-- [ ] **Step 1.2:** Authentication Integration
+- [x] **Step 1.2:** Authentication Integration ✅
 - [ ] **Step 1.3:** Game Framework  
 - [ ] **Step 1.4:** Tic-Tac-Toe Implementation
 - [ ] **Step 1.5:** Basic UI
@@ -101,4 +104,4 @@ npm run dev
 
 ---
 
-*Last Updated: 2025-08-10 - Step 1.1 Complete*
+*Last Updated: 2025-08-11 - Step 1.2 Complete*
