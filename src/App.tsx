@@ -19,9 +19,10 @@ function App() {
 
   useEffect(() => {
     // Auto-create profile on first login
-    if (user?.signInDetails?.loginId) {
+    const loginId = user?.signInDetails?.loginId;
+    if (loginId) {
       client.models.User.list({
-        filter: { email: { eq: user.signInDetails.loginId } }
+        filter: { email: { eq: loginId } }
       }).then(async (result) => {
         if (result.data.length > 0) {
           // Profile exists, load it
@@ -31,8 +32,8 @@ function App() {
           console.log("No profile found, creating one automatically...");
           try {
             const newProfile = await client.models.User.create({
-              email: user.signInDetails.loginId,
-              username: user.signInDetails.loginId.split('@')[0],
+              email: loginId,
+              username: loginId.split('@')[0],
               ratings: JSON.stringify({
                 "tic-tac-toe": 1200,
                 "draw-a-card": 1200
@@ -82,19 +83,6 @@ function App() {
     }
   }
 
-  function refreshUserProfile() {
-    if (user?.signInDetails?.loginId) {
-      client.models.User.list({
-        filter: { email: { eq: user.signInDetails.loginId } }
-      }).then((result) => {
-        if (result.data.length > 0) {
-          setCurrentUserProfile(result.data[0]);
-        }
-      }).catch((error) => {
-        console.error("Error refreshing user profile:", error);
-      });
-    }
-  }
 
 
   return (
@@ -110,13 +98,13 @@ function App() {
             <p><strong>Ratings:</strong></p>
             <ul>
               {Object.entries(JSON.parse(currentUserProfile.ratings as string || "{}")).map(([game, rating]) => (
-                <li key={game}>{game}: {rating}</li>
+                <li key={game}>{game}: {String(rating)}</li>
               ))}
             </ul>
             <p><strong>Games Played:</strong></p>
             <ul>
               {Object.entries(JSON.parse(currentUserProfile.gamesPlayed as string || "{}")).map(([game, count]) => (
-                <li key={game}>{game}: {count}</li>
+                <li key={game}>{game}: {String(count)}</li>
               ))}
             </ul>
           </div>
